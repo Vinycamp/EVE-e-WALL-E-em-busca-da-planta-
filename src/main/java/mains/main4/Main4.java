@@ -19,6 +19,9 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
+import javafx.scene.media.MediaView;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
@@ -95,6 +98,8 @@ public class Main4 extends Application {
         //Caixa de escolha de cor
         ChoiceBox<String> escolherCorEVE = new ChoiceBox<>();
         escolherCorEVE.getItems().addAll("Azul", "Branco", "Laranja", "Verde", "Vermelho");
+        escolherCorEVE.setValue("Branco");
+        corSelecionadaEVE = escolherCorEVE.getValue().toLowerCase();
 
         escolherCorEVE.setOnAction(e ->{
             corSelecionadaEVE = escolherCorEVE.getValue().toLowerCase();
@@ -105,6 +110,8 @@ public class Main4 extends Application {
 
         ChoiceBox<String> escolherCorWALLE = new ChoiceBox<>();
         escolherCorWALLE.getItems().addAll("Azul", "Branco", "Laranja", "Verde", "Vermelho");
+        escolherCorWALLE.setValue("Laranja");
+        corSelecionadaWALLE = escolherCorWALLE.getValue().toLowerCase();
 
         escolherCorWALLE.setOnAction(e ->{
             corSelecionadaWALLE = escolherCorWALLE.getValue().toLowerCase();
@@ -123,15 +130,23 @@ public class Main4 extends Application {
         button.setOnAction(event -> {
             if (corSelecionadaEVE != null && corSelecionadaWALLE != null) {
                 if (textFieldX.getText().equals("Hello") && textFieldY.getText().equals("Everynyan")) {
-                    System.out.println("How are you, fine shank you!");
-                    System.out.println("Oh my gaaah!");
+                    Media media = new Media(getClass().getResource("/videos/ohmygah.mp4").toExternalForm());
+                    MediaPlayer mediaPlayer = new MediaPlayer(media);
+                    MediaView mediaView = new MediaView(mediaPlayer);
+                    mediaView.setFitWidth(400);
+                    mediaView.setFitHeight(300);
+                    root.setCenter(mediaView);
+                    mediaPlayer.play();
                 } else {
                     int x = Integer.parseInt(textFieldX.getText()) - 1;
                     int y = Integer.parseInt(textFieldY.getText()) - 1;
-                    this.alimento = new Posicao(x, y);
-                    root.setTop(null);
-                    // Exibir o jogo
-                    this.instanciarObstaculos(stage);
+                    if (x > 0 && x < 20 && y > 0 && y < 10) {
+                        this.alimento = new Posicao(x, y);
+                        // Exibir o jogo
+                        this.instanciarObstaculos(stage);
+                    } else {
+                        System.out.println("X ou Y inválidos.");
+                    }
                 }
             } else {
                 System.out.println("Selecione a cor da EVE!\nSelecione a cor da WALLE!");

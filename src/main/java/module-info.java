@@ -1,11 +1,10 @@
 module mains {
     requires javafx.controls;
     requires javafx.fxml;
-    requires javafx.graphics;
-    requires javafx.base;
 
     requires org.controlsfx.controls;
     requires java.desktop;
+    requires javafx.media;
 
     opens mains to javafx.fxml;
     exports mains;

@@ -26,6 +26,9 @@ import mains.MovimentoInvalidoException;
 import mains.Particula;
 import mains.Posicao;
 import mains.Robo;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
+import javafx.scene.media.MediaView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -101,6 +104,8 @@ public class Main1 extends Application {
         //Caixa de escolha de cor
         ChoiceBox<String> escolherCorEVE = new ChoiceBox<>();
         escolherCorEVE.getItems().addAll("Azul", "Branco", "Laranja", "Verde", "Vermelho");
+        escolherCorEVE.setValue("Branco");
+        corSelecionadaEVE = escolherCorEVE.getValue().toLowerCase();
 
         escolherCorEVE.setOnAction(e ->{
             corSelecionadaEVE = escolherCorEVE.getValue().toLowerCase();
@@ -119,15 +124,23 @@ public class Main1 extends Application {
         button.setOnAction(event -> {
             if (corSelecionadaEVE != null) {
                 if (textFieldX.getText().equals("Hello") && textFieldY.getText().equals("Everynyan")) {
-                    System.out.println("How are you, fine shank you!");
-                    System.out.println("Oh my gaaah!");
+                    Media media = new Media(getClass().getResource("/videos/ohmygah.mp4").toExternalForm());
+                    MediaPlayer mediaPlayer = new MediaPlayer(media);
+                    MediaView mediaView = new MediaView(mediaPlayer);
+                    mediaView.setFitWidth(400);
+                    mediaView.setFitHeight(300);
+                    root.setCenter(mediaView);
+                    mediaPlayer.play();
                 } else {
                     int x = Integer.parseInt(textFieldX.getText()) - 1;
                     int y = Integer.parseInt(textFieldY.getText()) - 1;
-                    this.alimento = new Posicao(x, y);
-                    root.setTop(null);
-                    // Exibir o jogo
-                    this.iniciarJogo(stage);
+                    if (x > 0 && x < 20 && y > 0 && y < 10) {
+                        this.alimento = new Posicao(x, y);
+                        // Exibir o jogo
+                        this.iniciarJogo(stage);
+                    } else {
+                        System.out.println("X ou Y inválidos.");
+                    }
                 }
             } else {
                 System.out.println("Selecione a cor da EVE!");
